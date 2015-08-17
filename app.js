@@ -74,7 +74,9 @@ var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var cookieParser   = require('cookie-parser');
 //var expressWs      = require('express-ws')(app);
-var ws = require('ws').Server;
+//var ws = require('ws').Server;
+var WebSocketServer = require('ws').Server;
+var http = require('http');
 
 app.use(express.static(__dirname + '/public'));     	// set the static files location /public/img will be /img for users
 if (settings.useDevLogger)
@@ -121,11 +123,11 @@ router.get('/checkstatus', checkStatus);
 if (authService && authService.hystrixStream)
 	app.get('/rest/api/hystrix.stream', authService.hystrixStream);
 
-
 //REGISTER OUR ROUTES so that all of routes will have prefix 
 app.use(settings.contextRoot, router);
 
-var wss = new ws({port:8080});
+var server = http.createServer(app);
+var wss = new WebSocketServer({server:server});
 wss.on('connection', websocket.chat);
 
 // Only initialize DB after initialization of the authService is done
@@ -196,6 +198,6 @@ function initDB(){
 function startServer() {
 	if (serverStarted ) return;
 	serverStarted = true;
-	app.listen(port);   
+	server.listen(port);
 	logger.info("Express server listening on port " + port);
 }
