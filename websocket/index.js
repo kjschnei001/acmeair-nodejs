@@ -51,9 +51,25 @@ module.exports = function() {
 			  agentName + ". How can I help you?"});
 	}
 	
+	function getRandomSupportResponse() {
+		var supportRespones = ["One moment please...", 
+		                         "Have you tried rebooting?",
+		                         "Please consult our FAQ",
+		                         "Please enter your Support ID.",
+		                         "I need to contact my supervisor",
+		                         "Your problem is important to us",
+		                         "Please call 1-800-XXX-XXXX",
+		                         "Please refresh your ip stack",
+		                         "Press ctl+alt+delete",
+		                         "Enter up, up, down, down, left, " +
+		                         	"right, left, right, b, a, start",
+		                         "Good luck!"];
+		return supportRespones[getRandomInt(0,supportRespones.length)];
+	}
+	
 	function supportResponse(agentName) {
 		return JSON.stringify({"agent" : agentName,
-			"message" : "One moment please..."});
+			"message" : getRandomSupportResponse()});
 	}
 	
 	return module;
