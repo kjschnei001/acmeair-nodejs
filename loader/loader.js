@@ -179,11 +179,7 @@ module.exports = function (loadUtil,settings) {
 	}
 	
 	var flightQueue = async.queue(insertFlight, DATABASE_PARALLELISM);
-	//flightQueue.drain = function() {
-	//	logger.info('all flights loaded');
-	//	logger.info('ending loading database');
-	//}
-	
+
 	
 	var customers = new Array();
 	var airportCodeMappings = new Array();

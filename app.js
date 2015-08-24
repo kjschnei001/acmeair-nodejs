@@ -73,8 +73,6 @@ var morgan         = require('morgan');
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var cookieParser   = require('cookie-parser');
-//var expressWs      = require('express-ws')(app);
-//var ws = require('ws').Server;
 var WebSocketServer = require('ws').Server;
 var http = require('http');
 
@@ -114,11 +112,9 @@ router.get('/config/countSessions', routes.countCustomerSessions);
 router.get('/config/countFlights', routes.countFlights);
 router.get('/config/countFlightSegments', routes.countFlightSegments);
 router.get('/config/countAirports' , routes.countAirports);
-//router.get('/loaddb', startLoadDatabase);
 router.get('/loader/load', startLoadDatabase);
 router.get('/loader/query', loader.getNumConfiguredCustomers);
 router.get('/checkstatus', checkStatus);
-//app.ws('/chat/websocket', websocket.chat);
 
 if (authService && authService.hystrixStream)
 	app.get('/rest/api/hystrix.stream', authService.hystrixStream);
@@ -126,6 +122,7 @@ if (authService && authService.hystrixStream)
 //REGISTER OUR ROUTES so that all of routes will have prefix 
 app.use(settings.contextRoot, router);
 
+//REGISTER WebSocket Listener
 var server = http.createServer(app);
 var wss = new WebSocketServer({server:server});
 wss.on('connection', websocket.chat);
